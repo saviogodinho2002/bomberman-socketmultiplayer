@@ -7,19 +7,13 @@ import java.io.*;
 import org.json.JSONObject;
 
 public class Client {
-    public static void main(String[] args)
-            throws UnknownHostException, IOException {
-        // dispara cliente
-        String enderecoIP = "192.168.12.86"; // Coloque o endereço IP retornado pelo servidor aqui
-        int porta = 12345;
-        // dispara cliente
-        new Client(enderecoIP, porta,Util.obterEnderecoIPFornecidoPeloAP()).executa();
-    }
 
     private String host;
     private int porta;
 
     public String ip;
+    PrintStream saida;
+    Socket cliente;
 
     public Client (String host, int porta,String ip) {
         this.host = host;
@@ -28,29 +22,28 @@ public class Client {
     }
 
     public void executa() throws UnknownHostException, IOException {
-        Socket cliente = new Socket(this.host, this.porta);
+         cliente = new Socket(this.host, this.porta);
         System.out.println("O cliente se conectou ao servidor! "+this.ip);
 
         // thread para receber mensagens do servidor
         Recebedor r = new Recebedor(cliente.getInputStream(),this);
         new Thread(r).start();
 
-        // lê msgs do teclado e manda pro servidor
-        Scanner teclado = new Scanner(System.in);
-        PrintStream saida = new PrintStream(cliente.getOutputStream());
+         saida = new PrintStream(cliente.getOutputStream());
 
-        String texto;
-        while (teclado.hasNextLine()) {
-            texto = teclado.nextLine();
-            if (texto.equals("sair")) {
-                System.exit(0);
-            } else {
-                saida.println(this.ip+"|"+texto);
-            }
-        }
+
+
+
+        //saida.close();
+        //teclado.close();
+       // cliente.close();
+    }
+    public void enviarMensagem(String message){
+        saida.println(this.ip+"|"+message);
+    }
+    public void closeCliente() throws IOException {
         saida.close();
-        teclado.close();
-        cliente.close();
+         cliente.close();
     }
 }
 
@@ -79,7 +72,7 @@ class Recebedor implements Runnable {
             if(!client.ip.equals(ipOring)){
                 System.out.println(message);
             }
-
+            System.out.println(json);
         }
     }
 }
