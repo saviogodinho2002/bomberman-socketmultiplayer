@@ -4,6 +4,7 @@ import java.net.*;
 import java.util.Enumeration;
 import java.util.Scanner;
 import java.io.*;
+import org.json.JSONObject;
 
 public class Client {
     public static void main(String[] args)
@@ -69,13 +70,15 @@ class Recebedor implements Runnable {
 
         while (s.hasNextLine()) {
             String out = s.nextLine();
-            int index = out.indexOf("|");
-            String ipOring = out.substring(0,index);
-            out = out.substring(index+1);
+
+
+            JSONObject json = new JSONObject(out);
+            String message = json.getString("message");
+            String ipOring = json.getString("ip");
+
             if(!client.ip.equals(ipOring)){
-                System.out.println(out);
+                System.out.println(message);
             }
-           System.out.println(out);
 
         }
     }

@@ -1,3 +1,4 @@
+import org.json.JSONObject;
 import java.io.IOException;
 import java.net.*;
 import java.util.Scanner;
@@ -66,8 +67,20 @@ class TrataCliente implements Runnable {
     public void run() {
         // quando chegar uma msg, distribui pra todos
         Scanner s = new Scanner(this.cliente);
+
+
         while (s.hasNextLine()) {
-            servidor.distribuiMensagem(s.nextLine());
+            String msg  = s.nextLine();
+            JSONObject json = new JSONObject();
+
+            int index = msg.indexOf("|");
+            String ipOring = msg.substring(0,index);
+            msg = msg.substring(index+1);
+
+            json.put("ip", ipOring);
+            json.put("message", msg);
+
+            servidor.distribuiMensagem(json.toString());
         }
         s.close();
     }
