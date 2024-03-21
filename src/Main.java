@@ -12,8 +12,9 @@ public class Main {
         Client c1 = new Client(enderecoIP, porta,Util.obterEnderecoIPFornecidoPeloAP());
         c1.executa();
         Scanner sc = new Scanner(System.in);
-
-        c1.enviarMensagem(sc.nextLine());
+        while (true)
+            if (sc.hasNextLine())
+                c1.enviarMensagem(sc.nextLine());
 
     }
 
