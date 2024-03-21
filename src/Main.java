@@ -10,7 +10,8 @@ public class Main {
         String enderecoIP = "192.168.12.86"; // Coloque o endereço IP retornado pelo servidor aqui
         int porta = 12345;
         // dispara cliente
-        Client c1 = new Client(enderecoIP, porta,Util.obterEnderecoIPFornecidoPeloAP());
+
+        Client c1 = new Client(args[0], porta,Util.obterEnderecoIPFornecidoPeloAP());
         c1.executa();
 
         Game game = new Game(c1);
@@ -29,10 +30,7 @@ public class Main {
         Thread thread = new Thread(game);
 
         thread.start();
-        Scanner sc = new Scanner(System.in);
-        while (true)
-            if (sc.hasNextLine())
-                c1.enviarMensagem(sc.nextLine());
+
 
     }
 
