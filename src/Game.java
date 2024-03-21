@@ -49,7 +49,7 @@ public class Game extends Canvas implements Runnable, KeyListener{
 		JSONObject jsonSend = new JSONObject();
 		jsonSend.put("ip",player.client.ip);
 		jsonSend.put("x",player.x);
-		jsonSend.put("x",player.y);
+		jsonSend.put("y",player.y);
 		player.client.enviarMensagem(jsonSend.toString());
 
 		JSONObject json = player.client.recebedor.json;
