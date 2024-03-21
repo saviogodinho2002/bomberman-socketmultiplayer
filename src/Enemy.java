@@ -11,7 +11,7 @@ public class Enemy extends Rectangle{
 	public void tick(int x, int y) {
 
 			this.y = y;
-			this.y = x;
+			this.x = x;
 
 	}
 	public void render(Graphics graphics) {

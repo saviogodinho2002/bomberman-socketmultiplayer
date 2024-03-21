@@ -53,7 +53,7 @@ public class Game extends Canvas implements Runnable, KeyListener{
 		player.client.enviarMensagem(jsonSend.toString());
 
 		JSONObject json = player.client.recebedor.json;
-		if(!json.getString("ip").equals(this.client.ip)){
+		if( !json.isEmpty() && !json.getString("ip").equals(this.client.ip)){
 			Enemy enemy = enemies.get(json.getString("ip"));
 			if(enemy == null){
 				enemy = enemies.put(json.getString("ip"),new Enemy(WIDTH/2, HEIGHT/2));

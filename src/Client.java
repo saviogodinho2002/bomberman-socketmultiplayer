@@ -27,7 +27,7 @@ public class Client {
         System.out.println("O cliente se conectou ao servidor! "+this.ip);
 
         // thread para receber mensagens do servidor
-        recebedor = new Recebedor(cliente.getInputStream(),this);
+        this.recebedor = new Recebedor(cliente.getInputStream(),this);
         new Thread(recebedor).start();
 
          saida = new PrintStream(cliente.getOutputStream());
@@ -38,7 +38,7 @@ public class Client {
        // cliente.close();
     }
     public void enviarMensagem(String message){
-        saida.println(this.ip+"|"+message);
+        saida.println(message);
     }
     public void closeCliente() throws IOException {
         saida.close();
@@ -56,6 +56,8 @@ class Recebedor implements Runnable {
     public Recebedor(InputStream servidor,Client client) {
         this.servidor = servidor;
         this.client = client;
+        json = new JSONObject();
+
     }
 
 
@@ -65,15 +67,14 @@ class Recebedor implements Runnable {
 
         while (s.hasNextLine()) {
             String out = s.nextLine();
-
-
+            System.out.println(out);
             json = new JSONObject(out);
-            String message = json.getString("message");
+            /*String message = json.getString("message");
             String ipOring = json.getString("ip");
 
             if(!client.ip.equals(ipOring)){
                 System.out.println(message);
-            }
+            }*/
            // System.out.println(json);
         }
     }

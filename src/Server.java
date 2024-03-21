@@ -71,6 +71,7 @@ class TrataCliente implements Runnable {
 
         while (s.hasNextLine()) {
             String msg  = s.nextLine();
+            System.out.println(msg);
           /*  JSONObject json = new JSONObject();
 
             int index = msg.indexOf("|");

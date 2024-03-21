@@ -2,7 +2,7 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
-      <module fileurl="file://$PROJECT_DIR$/bomberman rede.iml" filepath="$PROJECT_DIR$/bomberman rede.iml" />
+      <module fileurl="file://$PROJECT_DIR$/bomberman_rede.iml" filepath="$PROJECT_DIR$/bomberman_rede.iml" />
     </modules>
   </component>
 </project>
