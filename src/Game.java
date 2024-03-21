@@ -132,7 +132,6 @@ public class Game extends Canvas implements Runnable, KeyListener{
 		if(e.getKeyCode() == KeyEvent.VK_DOWN) {
 			player.setCurrentPlayerSprite(SpriteSheet.playerBack);
 			player.setPlayerDown(true);
-			player.client.enviarMensagem("d");
 
 		}else if(e.getKeyCode() == KeyEvent.VK_UP) {
 			player.setCurrentPlayerSprite(SpriteSheet.playerFront);
