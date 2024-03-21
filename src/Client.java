@@ -15,6 +15,7 @@ public class Client {
     PrintStream saida;
     Socket cliente;
 
+    public Recebedor recebedor;
     public Client (String host, int porta,String ip) {
         this.host = host;
         this.porta = porta;
@@ -26,12 +27,10 @@ public class Client {
         System.out.println("O cliente se conectou ao servidor! "+this.ip);
 
         // thread para receber mensagens do servidor
-        Recebedor r = new Recebedor(cliente.getInputStream(),this);
-        new Thread(r).start();
+        recebedor = new Recebedor(cliente.getInputStream(),this);
+        new Thread(recebedor).start();
 
          saida = new PrintStream(cliente.getOutputStream());
-
-
 
 
         //saida.close();
@@ -52,10 +51,13 @@ class Recebedor implements Runnable {
     private InputStream servidor;
     private Client client;
 
+    public JSONObject json;
+
     public Recebedor(InputStream servidor,Client client) {
         this.servidor = servidor;
         this.client = client;
     }
+
 
     public void run() {
         // recebe msgs do servidor e imprime na tela
@@ -65,14 +67,14 @@ class Recebedor implements Runnable {
             String out = s.nextLine();
 
 
-            JSONObject json = new JSONObject(out);
+            json = new JSONObject(out);
             String message = json.getString("message");
             String ipOring = json.getString("ip");
 
             if(!client.ip.equals(ipOring)){
                 System.out.println(message);
             }
-            System.out.println(json);
+           // System.out.println(json);
         }
     }
 }

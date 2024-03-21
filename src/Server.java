@@ -71,16 +71,16 @@ class TrataCliente implements Runnable {
 
         while (s.hasNextLine()) {
             String msg  = s.nextLine();
-            JSONObject json = new JSONObject();
+          /*  JSONObject json = new JSONObject();
 
             int index = msg.indexOf("|");
             String ipOring = msg.substring(0,index);
             msg = msg.substring(index+1);
 
             json.put("ip", ipOring);
-            json.put("message", msg);
+            json.put("message", msg);*/
 
-            servidor.distribuiMensagem(json.toString());
+            servidor.distribuiMensagem(msg);
         }
         s.close();
     }
