@@ -2,6 +2,7 @@ import java.io.IOException;
 import java.io.PrintStream;
 import java.net.*;
 import java.util.Enumeration;
+import java.util.Hashtable;
 import java.util.Scanner;
 import java.io.*;
 import org.json.JSONObject;
@@ -52,11 +53,13 @@ class Recebedor implements Runnable {
     private Client client;
 
     public JSONObject json;
+    public Hashtable<String,JSONObject> jsonTable;
 
     public Recebedor(InputStream servidor,Client client) {
         this.servidor = servidor;
         this.client = client;
         json = new JSONObject();
+        jsonTable = new Hashtable<>();
 
     }
 
@@ -69,6 +72,8 @@ class Recebedor implements Runnable {
             String out = s.nextLine();
             System.out.println(out);
             json = new JSONObject(out);
+            jsonTable.put(json.getString("ip"),json);
+
             /*String message = json.getString("message");
             String ipOring = json.getString("ip");
 

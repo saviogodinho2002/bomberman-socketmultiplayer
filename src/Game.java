@@ -52,15 +52,26 @@ public class Game extends Canvas implements Runnable, KeyListener{
 		jsonSend.put("y",player.y);
 		player.client.enviarMensagem(jsonSend.toString());
 
-		JSONObject json = player.client.recebedor.json;
-		if( !json.isEmpty() && !json.getString("ip").equals(this.client.ip)){
-			Enemy enemy = enemies.get(json.getString("ip"));
-			if(enemy == null){
-				 enemies.put(json.getString("ip"),new Enemy(WIDTH/2, HEIGHT/2));
-				enemy = enemies.get(json.getString("ip"));
+		for (Map.Entry<String,JSONObject> ipJsonEntry:
+				player.client.recebedor.jsonTable.entrySet()) {
+
+			JSONObject json = ipJsonEntry.getValue();
+
+			if( !json.isEmpty() && !json.getString("ip").equals(this.client.ip)){
+
+				Enemy enemy = enemies.get(json.getString("ip"));
+				if(enemy == null){
+					enemy = new Enemy(WIDTH/2, HEIGHT/2);
+					enemies.put(json.getString("ip"),enemy);
+
+				}
+				enemy.tick(json.getInt("x"),json.getInt("y"));
+
 			}
-			enemy.tick(json.getInt("x"),json.getInt("y"));
+
+
 		}
+
 
 		//enemy.tick(player);
 		
@@ -85,10 +96,11 @@ public class Game extends Canvas implements Runnable, KeyListener{
 		tileMap.render(graphics);
 		
 		player.render(graphics);
-		for (Map.Entry<String,Enemy> enemy1:
-			 enemies.entrySet()) {
-			enemy1.getValue().render(graphics);
+		for (Map.Entry<String,Enemy> enemyEntry:
+				enemies.entrySet()) {
+			enemyEntry.getValue().render(graphics);
 		}
+
 
 		/*enemy.render(graphics);*/
 		
@@ -103,7 +115,7 @@ public class Game extends Canvas implements Runnable, KeyListener{
 	@Override
 	public void run() {
 		// TODO Auto-generated method stub
-		
+
 		new Timer().scheduleAtFixedRate(
 				new TimerTask() {
 					
